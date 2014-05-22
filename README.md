@@ -1,6 +1,8 @@
 Docker PHP
 ==========
 
+Fix typo2
+
 **Docker PHP** (for lack of a better name) is a [Docker](http://docker.io/) client written in PHP. This library is still a work in progress. Not much is supported yet, but the goal is to reach 100% API support.
 
 The test suite currently passes against the [Docker Remote API v1.9](http://docs.docker.io/en/latest/api/docker_remote_api_v1.9/).
