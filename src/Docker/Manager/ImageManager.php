@@ -164,11 +164,15 @@ class ImageManager
 	 *
 	 * @param Image    $image    The image to push.
 	 * @param callable $callback Called with the streaming contents of the push operation.
+	 * @param string $registry The registry to push the image to.
 	 */
-	public function push(Image $image, callable $callback = null)
+	public function push(Image $image, callable $callback = null, $registry = '')
 	{
-		$response = $this->client->post(['/images/{image}/push', [
+		$response = $this->client->post(['/images/{image}/push{?data*}', [
 			'image' => $image->getName(),
+			'data' => array(
+				'registry' => $registry,
+			)
 		]], [
 			'stream' => true,
 		]);
