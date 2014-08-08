@@ -159,6 +159,33 @@ class ImageManager
         return $image;
     }
 
+	/**
+	 * Push an image to the registry.
+	 *
+	 * @param Image    $image    The image to push.
+	 * @param callable $callback Called with the streaming contents of the push operation.
+	 */
+	public function push(Image $image, callable $callback = null)
+	{
+		$response = $this->client->post(['/images/{image}/push', [
+			'image' => $image->getName(),
+		]], [
+			'stream' => true,
+		]);
+
+		if ($callback === null) {
+			$callback = function() {};
+		}
+
+		$stream = $response->getBody();
+
+		if ($stream instanceof StreamCallbackInterface) {
+			$stream->readWithCallback($callback);
+		} else {
+			$callback((string)$stream, null);
+		}
+	}
+
     /**
      * Delete an image from docker daemon
      *
