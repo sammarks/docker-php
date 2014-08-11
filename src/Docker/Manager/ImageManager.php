@@ -176,7 +176,7 @@ class ImageManager
 		}
 
 		$response = $this->client->post(['/images/{image}/push{?data*}', [
-			'image' => $image->getName(),
+			'image' => $image->getId(),
 			'data' => $data,
 		]], [
 			'stream' => true,
