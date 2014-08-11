@@ -177,7 +177,9 @@ class ImageManager
 			)
 		]], [
 			'stream' => true,
-			'X-Registry-Auth' => $auth->getEncoded(),
+			'headers' => array(
+				'X-Registry-Auth' => $auth->getEncoded(),
+			),
 		]);
 
 		if ($callback === null) {
