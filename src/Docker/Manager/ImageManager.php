@@ -2,6 +2,7 @@
 
 namespace Docker\Manager;
 
+use Docker\AuthConfig;
 use Docker\Exception\ImageNotFoundException;
 use Docker\Http\Stream\StreamCallbackInterface;
 use Docker\Image;
@@ -162,11 +163,12 @@ class ImageManager
 	/**
 	 * Push an image to the registry.
 	 *
-	 * @param Image    $image    The image to push.
-	 * @param callable $callback Called with the streaming contents of the push operation.
-	 * @param string $registry The registry to push the image to.
+	 * @param Image      $image    The image to push.
+	 * @param AuthConfig $auth     The authentication used to login to the Docker registry.
+	 * @param callable   $callback Called with the streaming contents of the push operation.
+	 * @param string     $registry The registry to push the image to.
 	 */
-	public function push(Image $image, callable $callback = null, $registry = '')
+	public function push(Image $image, AuthConfig $auth, callable $callback = null, $registry = '')
 	{
 		$response = $this->client->post(['/images/{image}/push{?data*}', [
 			'image' => $image->getName(),
@@ -175,6 +177,7 @@ class ImageManager
 			)
 		]], [
 			'stream' => true,
+			'X-Registry-Auth' => $auth->getEncoded(),
 		]);
 
 		if ($callback === null) {
