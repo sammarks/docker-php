@@ -170,11 +170,14 @@ class ImageManager
 	 */
 	public function push(Image $image, AuthConfig $auth, callable $callback = null, $registry = '')
 	{
+		$data = array();
+		if ($registry) {
+			$data['registry'] = $registry;
+		}
+
 		$response = $this->client->post(['/images/{image}/push{?data*}', [
 			'image' => $image->getName(),
-			'data' => array(
-				'registry' => $registry,
-			)
+			'data' => $data,
 		]], [
 			'stream' => true,
 			'headers' => array(
