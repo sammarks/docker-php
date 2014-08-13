@@ -60,9 +60,10 @@ class Image
     public function setName($name)
     {
         if (false !== strpos($name, ':')) {
-            list($repository, $tag) = explode(':', $name);
+	        $segments = explode(':', $name);
+	        $tag = array_pop($segments);
             
-            $this->setRepository($repository);
+            $this->setRepository(implode(':', $segments));
             $this->setTag($tag);
         } else {
             $this->setRepository($name);
